@@ -1,0 +1,18 @@
+navbar ul.nav {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+navbar form {
+    line-height: 39px;
+    
+    input {
+        @media screen and (min-width: 768px) {
+            margin-left: 25px;
+        }
+        
+        @media screen and (max-width: 767px) {
+            margin-top: 75px;
+        }
+    }
+}

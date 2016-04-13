@@ -1,0 +1,21 @@
+{
+  "name": "poe-ladder",
+  "version": "0.0.1",
+  "authors": [
+    "Mark van Lagen <mark@nijhuisenvanlagen.nl>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.0",
+    "angular": "1.5.*",
+    "angular-ui-router": "~0.2.15",
+    "font-awesome": "fontawesome#~4.5.0",
+    "angular-bootstrap": "~1.1.0",
+    "angular-sanitize": "1.5.*"
+  }
+}

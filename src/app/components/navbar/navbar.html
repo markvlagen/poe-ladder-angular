@@ -1,0 +1,10 @@
+<ul class="nav nav-pills" role="tablist">
+    <li ng-class="{active: Navbar.isActive(module)}" ng-repeat="module in Navbar.ModuleStates | filter:{showInMenu: true} | orderBy:'priority'">
+        <a ui-sref="{{module.name}}"><i class="{{module.icon}}"></i> {{module.menuName}}</a>
+    </li>
+    <form name="register" class="form-inline">
+        <input type="text" id="poe-account" class="form-control" placeholder="SSF_YOUR_ACCOUNT" ng-model="Navbar.accountName" ng-readonly="Navbar.registered">
+        <button type="button" class="btn btn-primary" ng-click="Navbar.registerAccount(Navbar.accountName)" ng-if="!Navbar.registered">Register Account and Remember</button>
+        <button type="button" class="btn btn-default" ng-click="Navbar.undoStorage()" ng-if="Navbar.registered">Forget</button>
+    </form>
+</ul>

@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Ladder <small>Last update on {{ Ladder.lastUpdateTime | date:"dd-MM-yyyy 'at' HH:mm:ss" }} which took {{ Ladder.lastProcessTime | secondsToDateTime | date:"m 'minutes and' s 'seconds'"}}</small></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <navbar></navbar>
+    </div>
+</div>
+<form name="filter" class="form-horizontal">
+    <div class="form-group">
+        <label for="filter" class="col-sm-1 control-label">Search:</label>
+        <div class="col-sm-11">
+            <input class="form-control" type="text" id="filter" ng-model="Ladder.filter" placeholder="SSF_Kripparrian">
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col-xs-12">
+        <uib-alert ng-if="Ladder.status" close="Ladder.status = ''">{{ Ladder.status }}</uib-alert>
+        <grid data="Ladder.characters" get-data="Ladder.getCharacters(state)" get-classes-for-row="Ladder.getClassesForRow" pagination="100"></grid>
+    </div>
+</div>
