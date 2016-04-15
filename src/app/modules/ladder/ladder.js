@@ -29,7 +29,7 @@ function LadderController($log, $http, $filter, $scope, $stateParams) {
     Ladder.filter = $stateParams.filter;
     
     function doFilter() {
-        if(!allCharacters.length) {
+        if(!allCharacters.length || !gridState) {
             return;
         }
         
@@ -70,7 +70,10 @@ function LadderController($log, $http, $filter, $scope, $stateParams) {
         },
         {
             header: 'Experience',
-            name: 'experience'
+            name: 'experience',
+            override: function(cell) {
+                return $filter('number')(cell);
+            }
         },
         {
             header: 'Status',
@@ -85,7 +88,10 @@ function LadderController($log, $http, $filter, $scope, $stateParams) {
         },
         {
             header: 'Experience gained last hour (Approx.)',
-            name: 'experience_last_hour'
+            name: 'experience_last_hour',
+            override: function(cell) {
+                return $filter('number')(cell);
+            }
         },
         {
             header: 'Name',

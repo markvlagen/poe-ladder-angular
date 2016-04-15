@@ -2,12 +2,10 @@
 //
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
-    mainBowerFiles = require('main-bower-files'),
     del = require('del'),
     fs = require('fs');
 
 var config = new (function() {
-    this.bowerDir = './bower_components';
     this.vendorGlob = './vendor/**/*.js';
     this.mainAppJSPath = './src/app/app.js';
     this.componentsGlob = './src/app/+(components|modules)/**/*.js';
@@ -17,80 +15,30 @@ var config = new (function() {
     this.distDir = './dist';
 })();
 
-var bowerFiles = function() {
-    var files = mainBowerFiles();
-    
-    return files;
-}
-
-var bowerFilesMin = function() {
-    var files = mainBowerFiles().map(function(file) {
-        var splitFile = file.split('.');
-        var extension = splitFile[splitFile.length - 1];
-        var base = splitFile.slice(0, splitFile.length - 1).join('.');
-        var minPath = base + '.min.' + extension;
-        try {
-            fs.accessSync(minPath, fs.F_OK);
-            return minPath;
-        } catch (e) {
-            return file;
-        }
-    });
-    
-    return files;
-};
-
-var bowerFilesPaths = function() {
-    var paths = mainBowerFiles().map(function(file) {
-        var splitPath = file.split('/');
-        var file = splitPath[splitPath.length - 1];
-        var directoryPath = splitPath.slice(0, splitPath.length - 1).join('/');
-
-        return directoryPath;
-    }).filter(function(item, pos, self) {
-        return self.indexOf(item) == pos;
-    });
-    
-    return paths;
-};
-
 var dev = !(process.env.NODE_ENV == 'prod');
 console.log('NODE_ENV: ' + process.env.NODE_ENV);
 
-gulp.task('bower', function() {
-    return plugins.bower()
-        .pipe(gulp.dest(config.bowerDir));
-})
-
-gulp.task('assets', ['fontawesome'], function() {
+gulp.task('assets', ['clean:assets'], function() {
     return gulp.src(config.assetsDir)
         .pipe(gulp.dest(config.distDir));
-})
-
-gulp.task('fontawesome', ['clean:assets'], function() {
-    return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
-        .pipe(gulp.dest(config.distDir + '/fonts'))
 })
 
 gulp.task('css', ['clean:css'], function() {
     var SASSFilter = plugins.filter('**/*.scss', {restore: true});
     
-    return gulp.src((dev ? bowerFiles() : bowerFilesMin()).concat([config.stylesGlob]))
+    return gulp.src([config.stylesGlob])
         .pipe(plugins.filter(['**/*.scss', '**/*.css']))
         .pipe(plugins.debug({title: 'CSS/SCSS files:'}))
         .pipe(SASSFilter)
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.if(!dev, plugins.sass({
-                style: 'compressed',
-                includePaths: bowerFilesPaths()
+                style: 'compressed'
             })
             .on("error", plugins.notify.onError(function (error) {
                 return "Error: " + error.message;
             })
         )))
-        .pipe(plugins.if(dev, plugins.sass({
-                includePaths: bowerFilesPaths()
-            })
+        .pipe(plugins.if(dev, plugins.sass()
             .on("error", plugins.notify.onError(function (error) {
                 return "Error: " + error.message;
             })
@@ -121,7 +69,7 @@ gulp.task('templates', ['clean:js:templates'], function() {
 })
 
 gulp.task('js:vendor', ['clean:js:vendor'], function () {
-    return gulp.src([config.vendorGlob].concat(dev ? bowerFiles() : bowerFilesMin()))
+    return gulp.src([config.vendorGlob])
         .pipe(plugins.plumber(function(error) {
             plugins.util.log(plugins.util.colors.red(error.message));
             this.emit('end');
@@ -203,10 +151,10 @@ gulp.task('clean:css', function() {
 })
 
 // Rerun the task when a file changes
-gulp.task('watch', function() {
+gulp.task('watch', ['default'], function() {
     gulp.watch([config.templatesGlob], ['templates']);
     gulp.watch([config.mainAppJSPath, config.componentsGlob], ['js:app']);
-    gulp.watch([config.bowerDir, config.vendorGlob], ['js:vendor', 'assets']);
+    gulp.watch([config.vendorGlob], ['js:vendor', 'assets']);
     
     gulp.watch(config.stylesGlob, ['css']);
     
