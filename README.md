@@ -1,6 +1,6 @@
 # POE Ladder Angular
 
-Run `npm install` to install dependencies
+Run `npm install` and `bower install` to install dependencies
 Run `gulp` or `gulp watch` to run all tasks
 
 Source is found in ./src.
