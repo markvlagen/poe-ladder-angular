@@ -16,7 +16,7 @@ grid .sortable:after {
     font: normal normal normal 1em/1 FontAwesome;
 }
 
-grid .sorted-asc, grid .sorted-asc {
+grid .sorted-desc, grid .sorted-asc {
     background-color: #f9f9f9;
 }
 
@@ -34,4 +34,8 @@ grid th, grid td {
     overflow: hidden;
     text-overflow: ellipsis;
 */
+}
+
+grid .pagination {
+    margin: 5px 0;
 }

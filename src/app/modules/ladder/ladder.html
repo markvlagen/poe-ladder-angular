@@ -18,7 +18,7 @@
 </form>
 <div class="row">
     <div class="col-xs-12">
-        <uib-alert ng-if="Ladder.status" close="Ladder.status = ''">{{ Ladder.status }}</uib-alert>
+        <uib-alert ng-if="Ladder.status" close="Ladder.status = ''">{{ Ladder.status }}<br ng-if="Ladder.status !== ' '" /> The data on this page is gathered from the actual <a href="http://ssf.poeladder.com/">SSF ladder</a>.</uib-alert>
         <grid data="Ladder.characters" get-data="Ladder.getCharacters(state)" get-classes-for-row="Ladder.getClassesForRow" pagination="100"></grid>
     </div>
 </div>

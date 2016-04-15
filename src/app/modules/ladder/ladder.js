@@ -8,7 +8,7 @@ function LadderConfig(ModuleStatesProvider) {
             name: 'ladder',
             priority: 0,
             state: {
-                url: '/',
+                url: '/:filter',
                 views: {
                     '@': {
                         templateUrl: 'modules/ladder/ladder.html',
@@ -20,15 +20,27 @@ function LadderConfig(ModuleStatesProvider) {
     ]);
 }
 
-function LadderController($log, $http, $filter, $scope) {
+function LadderController($log, $http, $filter, $scope, $stateParams) {
     var Ladder = this;
     var allCharacters = [];
     var gridState;
-    $log.debug(Ladder);
+    $log.debug($stateParams.filter);
+    
+    Ladder.filter = $stateParams.filter;
     
     function doFilter() {
-        var filteredCharacters = $filter('filter')(allCharacters, Ladder.filter);
+        if(!allCharacters.length) {
+            return;
+        }
+        
+        var filteredCharacters = allCharacters;
+        
+        if(Ladder.filter) {
+            filteredCharacters = $filter('filter')(allCharacters, Ladder.filter);
+        }
+        
         gridState.total = filteredCharacters.length;
+        
         Ladder.characters = filteredCharacters.slice((gridState.page - 1) * gridState.perPage, gridState.page * gridState.perPage);
     }
     
@@ -38,7 +50,7 @@ function LadderController($log, $http, $filter, $scope) {
     });
     
     $http.get('meta.php').then(function(response) {
-        Ladder.status = response.data.status;
+        Ladder.status = response.data.status + ' ';
         Ladder.lastUpdateTime = response.data.last_ladder_update + '000';
         Ladder.lastProcessTime = response.data.last_process_time;
     });

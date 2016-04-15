@@ -1,2 +1,5 @@
 node_modules
 bower_components
+characters.json
+accounts.json
+meta.json

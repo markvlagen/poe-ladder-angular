@@ -9,8 +9,8 @@ angular.module('poeladder', [
         'templates',
         'system',
         'poe.navbar',
-        'poe.ladder',
         'poe.accounts',
-        'poe.rules'
+        'poe.rules',
+        'poe.ladder'
     ])
     .config(AppConfig);

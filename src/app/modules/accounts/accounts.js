@@ -6,7 +6,7 @@ function AccountsConfig(ModuleStatesProvider) {
             menuName: 'Accounts',
             icon: 'fa fa-users fa-fw',
             name: 'accounts',
-            priority: 0,
+            priority: 1,
             state: {
                 url: '/accounts',
                 views: {

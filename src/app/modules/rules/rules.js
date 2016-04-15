@@ -6,7 +6,7 @@ function RulesConfig(ModuleStatesProvider) {
             menuName: 'Rules',
             icon: 'fa fa-list-ol fa-fw',
             name: 'rules',
-            priority: 0,
+            priority: 2,
             state: {
                 url: '/rules',
                 views: {
